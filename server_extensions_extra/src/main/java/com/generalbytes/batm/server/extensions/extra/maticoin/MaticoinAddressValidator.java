@@ -106,7 +106,10 @@ public class MaticoinAddressValidator implements ICryptoAddressValidator {
 
     @Override
     public boolean isAddressValid(String address) {
-        return true;
+        if (address.startsWith("0x") || address.startsWith("ethereum:")) {
+            return true;
+        }
+        return false;
     }
 
     @Override

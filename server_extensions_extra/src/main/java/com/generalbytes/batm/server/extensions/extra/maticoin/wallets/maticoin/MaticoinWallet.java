@@ -47,7 +47,6 @@ import org.web3j.utils.Numeric;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.sql.Time;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -80,23 +79,11 @@ public class MaticoinWallet implements IWallet {
         this.noGasContract = ERC20Interface.load(this.contractAddress, w, credentials, DummyContractGasProvider.INSTANCE);
     }
 
-    private ERC20Interface getContract(String destinationAddress, BigInteger tokensAmount) {
-        ERC20ContractGasProvider contractGasProvider = new ERC20ContractGasProvider(contractAddress, credentials.getAddress(), destinationAddress, tokensAmount, fixedGasLimit, gasPriceMultiplier, w);
-        return ERC20Interface.load(this.contractAddress, w, credentials, contractGasProvider);
-    }
-
     private BigDecimal convertToBigDecimal(BigInteger value) {
         if (value == null) {
             return null;
         }
         return new BigDecimal(value).setScale(tokenDecimalPlaces, BigDecimal.ROUND_DOWN).divide(BigDecimal.TEN.pow(tokenDecimalPlaces), BigDecimal.ROUND_DOWN).stripTrailingZeros();
-    }
-
-    private BigInteger convertFromBigDecimal(BigDecimal value) {
-        if (value == null) {
-            return null;
-        }
-        return value.multiply(BigDecimal.TEN.pow(tokenDecimalPlaces)).toBigInteger();
     }
 
     private Credentials initCredentials(String mnemonicOrPassword) {
@@ -152,6 +139,16 @@ public class MaticoinWallet implements IWallet {
     @Override
     public String sendCoins(String destinationAddress, BigDecimal amount, String cryptoCurrency, String description) {
 
+        String processedDestinationAddress = "";
+
+        if (destinationAddress.endsWith("@137")) {
+            processedDestinationAddress = destinationAddress.replace("@137", "");
+        }
+
+        if (destinationAddress.startsWith("ethereum:")) {
+            processedDestinationAddress = destinationAddress.replace("ethereum:", "");
+        }
+
         try {
             // Get nonce
             EthGetTransactionCount ethGetTransactionCount = w.ethGetTransactionCount(credentials.getAddress(), DefaultBlockParameterName.LATEST).send();
@@ -161,7 +158,7 @@ public class MaticoinWallet implements IWallet {
             BigInteger balance2 = Convert.toWei(amount, Convert.Unit.ETHER).toBigInteger();
 
             // Create transfer function
-            Function function = new Function("transfer", Arrays.asList(new Address(destinationAddress), new Uint256(balance2)), Collections.singletonList(new TypeReference<Bool>() {
+            Function function = new Function("transfer", Arrays.asList(new Address(processedDestinationAddress), new Uint256(balance2)), Collections.singletonList(new TypeReference<Bool>() {
             }));
             String encodedFunction = FunctionEncoder.encode(function);
 
