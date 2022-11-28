@@ -295,6 +295,7 @@
                 <cryptocurrency>USDT</cryptocurrency>
                 <cryptocurrency>USDTTRON</cryptocurrency>
                 <cryptocurrency>VERUM</cryptocurrency>
+                <cryptocurrency>MCOIN</cryptocurrency>
                 <cryptocurrency>VIA</cryptocurrency>
                 <cryptocurrency>WDC</cryptocurrency>
                 <cryptocurrency>WILC</cryptocurrency>
@@ -2417,6 +2418,22 @@
         </ratesource>
         <cryptologo cryptocurrency="VERUM" file="verum.png"/>
         <cryptologo cryptocurrency="VERUM" file="verum.svg"/>
+    </extension>
+    <extension class="com.generalbytes.batm.server.extensions.extra.maticoin.MaticoinExtension" >
+        <wallet prefix="polygonERC20_MCOIN_18_0x7ee71692e3B19064b9C594DD7e5689A6076450d8" name="Infura.io wallet - Maticoin" >
+            <tunnel supported="true"/>
+            <sendtomany supported="true"/>
+            <param name="projectId" />
+            <param name="mnemonic" />
+            <cryptocurrency>MCOIN</cryptocurrency>
+        </wallet>
+        <ratesource prefix="maticoinfix" name ="Fix Price" >
+            <param name="price" />
+            <cryptocurrency>MCOIN</cryptocurrency>
+            <help>USD is default fiat currency.</help>
+        </ratesource>
+        <cryptologo cryptocurrency="MCOIN" file="maticoin.png"/>
+        <cryptologo cryptocurrency="MCOIN" file="maticoin.svg"/>
     </extension>
 
     <extension autoload="false" class="com.generalbytes.batm.server.extensions.extra.examples.notification.NotificationExampleExtension" />
