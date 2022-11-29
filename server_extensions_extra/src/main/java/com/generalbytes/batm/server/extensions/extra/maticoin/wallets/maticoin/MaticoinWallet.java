@@ -164,7 +164,6 @@ public class MaticoinWallet implements IWallet {
             String hexValue = Numeric.toHexString(signedMessage);
             EthSendTransaction transactionResponse = w.ethSendRawTransaction(hexValue).sendAsync().get(20, TimeUnit.SECONDS);
 
-
             return transactionResponse.getTransactionHash();
 
         } catch (TimeoutException e) {
