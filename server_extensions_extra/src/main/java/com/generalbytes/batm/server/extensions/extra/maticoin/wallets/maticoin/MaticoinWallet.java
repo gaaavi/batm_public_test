@@ -139,16 +139,6 @@ public class MaticoinWallet implements IWallet {
     @Override
     public String sendCoins(String destinationAddress, BigDecimal amount, String cryptoCurrency, String description) {
 
-        String processedDestinationAddress = "";
-
-        if (destinationAddress.endsWith("@137")) {
-            processedDestinationAddress = destinationAddress.replace("@137", "");
-        }
-
-        if (destinationAddress.startsWith("ethereum:")) {
-            processedDestinationAddress = destinationAddress.replace("ethereum:", "");
-        }
-
         try {
             // Get nonce
             EthGetTransactionCount ethGetTransactionCount = w.ethGetTransactionCount(credentials.getAddress(), DefaultBlockParameterName.LATEST).send();
@@ -158,7 +148,7 @@ public class MaticoinWallet implements IWallet {
             BigInteger balance2 = Convert.toWei(amount, Convert.Unit.ETHER).toBigInteger();
 
             // Create transfer function
-            Function function = new Function("transfer", Arrays.asList(new Address(processedDestinationAddress), new Uint256(balance2)), Collections.singletonList(new TypeReference<Bool>() {
+            Function function = new Function("transfer", Arrays.asList(new Address(destinationAddress), new Uint256(balance2)), Collections.singletonList(new TypeReference<Bool>() {
             }));
             String encodedFunction = FunctionEncoder.encode(function);
 
@@ -168,22 +158,14 @@ public class MaticoinWallet implements IWallet {
             // Get gas price
             BigInteger gasPrice = w.ethGasPrice().send().getGasPrice();
 
-            log.error("Gas Price: " + gasPrice);
-            log.error("Amount: " + amount);
-            log.error("Amount: " + amount);
-
             long chainId = 137;
-            RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, BigInteger.valueOf(9_000_000), contractAddress, encodedFunction);
+            RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, BigInteger.valueOf(50_000), contractAddress, encodedFunction);
             byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, chainId, credentials);
             String hexValue = Numeric.toHexString(signedMessage);
             EthSendTransaction transactionResponse = w.ethSendRawTransaction(hexValue).sendAsync().get(20, TimeUnit.SECONDS);
 
-            log.error(transactionResponse.getError().getMessage());
-            log.error(transactionResponse.getTransactionHash());
 
-            String transactionHash = transactionResponse.getTransactionHash();
-
-            return transactionHash;
+            return transactionResponse.getTransactionHash();
 
         } catch (TimeoutException e) {
             return "info_in_future";

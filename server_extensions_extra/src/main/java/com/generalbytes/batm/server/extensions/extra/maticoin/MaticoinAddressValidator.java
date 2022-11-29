@@ -13,6 +13,22 @@ public class MaticoinAddressValidator implements ICryptoAddressValidator {
 
     public static String encodeAddressToChecksumedAddress(byte[] addrBytes) {
         String address = bytesToHexString(addrBytes);
+
+        if (address.startsWith("ethereum:")) {
+            String processedAddress = address.replace("ethereum:", "");
+            return encodeAddressToChecksumedAddress(processedAddress);
+        }
+
+        if (address.endsWith("@137")) {
+            String processedAddress = address.replace("@137", "");
+            return encodeAddressToChecksumedAddress(processedAddress);
+        }
+
+        if (address.endsWith("@1")) {
+            String processedAddress = address.replace("@1", "");
+            return encodeAddressToChecksumedAddress(processedAddress);
+        }
+
         return encodeAddressToChecksumedAddress(address);
     }
 
