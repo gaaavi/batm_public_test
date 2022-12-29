@@ -159,7 +159,7 @@ public class MaticoinWallet implements IWallet {
             BigInteger gasPrice = w.ethGasPrice().send().getGasPrice();
 
             long chainId = 137;
-            RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, BigInteger.valueOf(50_000), contractAddress, encodedFunction);
+            RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice, BigInteger.valueOf(65_000), contractAddress, encodedFunction);
             byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, chainId, credentials);
             String hexValue = Numeric.toHexString(signedMessage);
             EthSendTransaction transactionResponse = w.ethSendRawTransaction(hexValue).sendAsync().get(20, TimeUnit.SECONDS);
