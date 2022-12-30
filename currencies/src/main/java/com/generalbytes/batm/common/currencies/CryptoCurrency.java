@@ -83,6 +83,7 @@ public enum CryptoCurrency {
     LSK("Lisk"),
     LTC("Litecoin"),
     MCOIN("Maticoin"),
+    CHIVO("CHIVO"),
     MAX("Maxcoin"),
     MEC("Megacoin"),
     MKR("Maker"),

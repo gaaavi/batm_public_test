@@ -2435,6 +2435,22 @@
         <cryptologo cryptocurrency="MCOIN" file="maticoin.png"/>
         <cryptologo cryptocurrency="MCOIN" file="maticoin.svg"/>
     </extension>
+    <extension class="com.generalbytes.batm.server.extensions.extra.chivo.ChivoExtension" >
+        <wallet prefix="polygonERC20_CHIVO_18_0xA3187A63Acc71444dD2d725A7d12e4a73421D062" name="Infura.io wallet - CHIVO" >
+            <tunnel supported="true"/>
+            <sendtomany supported="true"/>
+            <param name="projectId" />
+            <param name="mnemonic" />
+            <cryptocurrency>CHIVO</cryptocurrency>
+        </wallet>
+        <ratesource prefix="chivofix" name ="Fix Price" >
+            <param name="price" />
+            <cryptocurrency>CHIVO</cryptocurrency>
+            <help>USD is default fiat currency.</help>
+        </ratesource>
+        <cryptologo cryptocurrency="CHIVO" file="maticoin.png"/>
+        <cryptologo cryptocurrency="CHIVO" file="maticoin.svg"/>
+    </extension>
 
     <extension autoload="false" class="com.generalbytes.batm.server.extensions.extra.examples.notification.NotificationExampleExtension" />
     <extension autoload="false" class="com.generalbytes.batm.server.extensions.extra.examples.TransactionExtension" />
