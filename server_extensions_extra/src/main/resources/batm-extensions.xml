@@ -2448,8 +2448,8 @@
             <cryptocurrency>CHIVO</cryptocurrency>
             <help>USD is default fiat currency.</help>
         </ratesource>
-        <cryptologo cryptocurrency="CHIVO" file="maticoin.png"/>
-        <cryptologo cryptocurrency="CHIVO" file="maticoin.svg"/>
+        <cryptologo cryptocurrency="CHIVO" file="chivo.png"/>
+        <cryptologo cryptocurrency="CHIVO" file="chivo.svg"/>
     </extension>
 
     <extension autoload="false" class="com.generalbytes.batm.server.extensions.extra.examples.notification.NotificationExampleExtension" />
